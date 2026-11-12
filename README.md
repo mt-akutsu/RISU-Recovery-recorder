@@ -1,4 +1,3 @@
-# RISU-Recovery-recorder[index.html](https://github.com/user-attachments/files/34723108/index.html)
 <!doctype html>
 <html lang="ja">
 <head>
@@ -261,7 +260,7 @@ async function api(body){
     r=await fetch(cfg.url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({pass:cfg.pass},body)),redirect:'follow'});
     t=await r.text();
   }catch(e){throw new SendErr('通信できませんでした。電波や Wi-Fi を確認してください。')}
-  let j;try{j=JSON.parse(t)}catch(e){throw new SendErr('受け取り窓口から想定外の応答がありました。URL が正しいか、公開の設定が「全員」になっているかを確認してください。',body.action!=='chunk')}
+  let j;try{j=JSON.parse(t)}catch(e){throw new SendErr('受け取り窓口から想定外の応答がありました。URL が正しいか、公開の設定が「全員」になっているかを確認してください。（応答：HTTP '+r.status+' '+String(t).replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim().slice(0,120)+'）',body.action!=='chunk')}
   if(j&&j.ok===false){
     if(j.error==='auth')throw new SendErr('合言葉が違います。「設定」で確認してください。',true);
     if(j.error==='session')throw Object.assign(new SendErr('送信の途中経過が失われました。最初から送り直します。'),{session:true});
